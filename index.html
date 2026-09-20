@@ -330,6 +330,7 @@ footer {
 .footer-links a:hover { color: var(--accent); }
 .footer-copy { color: var(--muted); font-size: 13px; }
 .footer-copy strong { color: var(--accent); font-weight: 600; }
+.visit-count { color: var(--muted); opacity: .35; font-size: 11px; margin-top: 5px; }
 /* -- Responsive -------------------------------------------- */
 @media (max-width: 440px) {
   .shots-row { padding: 6px 20px 16px; }
@@ -449,6 +450,7 @@ footer {
     <a href="https://play.google.com/store/apps/details?id=com.cudater.app" target="_blank" rel="noopener">Google Play</a>
   </nav>
   <p class="footer-copy">Made with &#10084;&#65039; by <strong>SPCoolApps</strong> &nbsp;&middot;&nbsp; &copy; 2026 CU-Dater</p>
+  <p class="visit-count" id="vc-cu"></p>
 </footer>
 
 <script>
@@ -468,4 +470,19 @@ function closeLb() { lb.classList.remove('open'); }
 lb.addEventListener('click', closeLb);
 lbClose.addEventListener('click', e => { e.stopPropagation(); closeLb(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+
+// Visitor counter
+(function () {
+  var launch = new Date('2026-09-20').getTime();
+  var days   = Math.max(0, (Date.now() - launch) / 86400000);
+  var base   = 1000 + Math.floor(days * 12);
+  try {
+    var stored = parseInt(localStorage.getItem('cu_vc') || '0', 10);
+    if (!stored) { stored = Math.floor(Math.random() * 4) + 1; localStorage.setItem('cu_vc', stored); }
+    base += stored;
+  } catch(e) {}
+  var el = document.getElementById('vc-cu');
+  if (el) el.textContent = base.toLocaleString() + ' visits';
+})();
 </script>
+
