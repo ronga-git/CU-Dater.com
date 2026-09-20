@@ -1,136 +1,393 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+﻿<!doctype html>
+<title>CU-Dater</title>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CU-Dater — Plan your dates, track your vibe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Dating new people from multiple apps? CU-Dater keeps every spark organized — one list, zero chaos. Free for Android.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --bg: #fff0f3;
-    --accent: #e63f6e;
-    --accent2: #ff7aa2;
-    --text: #2d1b2e;
-    --muted: #8a5a6a;
-    --card: #ffffff;
-    --border: #ffd6e0;
+/* -- Tokens ------------------------------------------------ */
+:root {
+  --bg:      #FFF4F7;
+  --surface: #FFFFFF;
+  --card:    #FFFFFF;
+  --border:  #F0D4DF;
+  --accent:  #C82050;
+  --accent2: #E84070;
+  --text:    #120309;
+  --muted:   #7A3A52;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:      #120309;
+    --surface: #1E050F;
+    --card:    #280818;
+    --border:  #580E2C;
+    --accent:  #E84070;
+    --accent2: #FF8AAA;
+    --text:    #FFF0F5;
+    --muted:   #C07090;
   }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
-
-  /* HERO */
-  .hero {
-    background: linear-gradient(135deg, #ffe0ea 0%, #fff0f3 60%, #ffd6e0 100%);
-    text-align: center;
-    padding: 80px 20px 60px;
-    border-bottom: 1px solid var(--border);
-  }
-  .logo-icon { font-size: 72px; line-height: 1; margin-bottom: 16px; }
-  .logo-text {
-    font-size: 52px; font-weight: 800; letter-spacing: -1px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .tagline { font-size: 20px; color: var(--muted); margin: 12px 0 36px; font-style: italic; }
-  .cta-group { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-  .btn {
-    padding: 14px 32px; border-radius: 50px; font-size: 16px; font-weight: 600;
-    text-decoration: none; transition: transform .15s, box-shadow .15s;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(230,63,110,.3); }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-secondary { background: #fff; color: var(--accent); border: 2px solid var(--accent); }
-
-  /* FEATURES */
-  .section { padding: 64px 20px; max-width: 960px; margin: 0 auto; }
-  .section-title { text-align: center; font-size: 30px; font-weight: 700; margin-bottom: 8px; }
-  .section-sub { text-align: center; color: var(--muted); margin-bottom: 40px; font-size: 16px; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-  .card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 28px 24px;
-    transition: transform .15s, box-shadow .15s;
-  }
-  .card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(230,63,110,.12); }
-  .card-icon { font-size: 36px; margin-bottom: 14px; }
-  .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-  .card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
-
-  /* STATUS TABS */
-  .tabs-demo { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 480px; margin: 0 auto 64px; }
-  .tabs-demo h3 { text-align: center; margin-bottom: 20px; font-size: 16px; color: var(--muted); }
-  .tabs { display: flex; background: var(--bg); border-radius: 50px; padding: 4px; margin-bottom: 20px; }
-  .tab {
-    flex: 1; text-align: center; padding: 10px; border-radius: 50px;
-    font-size: 14px; font-weight: 600; cursor: default; color: var(--muted);
-  }
-  .tab.active { background: var(--accent); color: #fff; }
-  .item { background: var(--bg); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
-  .item-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
-  .item-text { font-size: 14px; font-weight: 500; }
-  .item-sub { font-size: 12px; color: var(--muted); }
-
-  /* FOOTER */
-  footer { text-align: center; padding: 32px 20px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--border); }
-  footer strong { color: var(--accent); }
+}
+:root[data-theme="dark"] {
+  --bg:      #120309;
+  --surface: #1E050F;
+  --card:    #280818;
+  --border:  #580E2C;
+  --accent:  #E84070;
+  --accent2: #FF8AAA;
+  --text:    #FFF0F5;
+  --muted:   #C07090;
+}
+/* -- Reset ------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+/* -- HERO -------------------------------------------------- */
+.hero {
+  background: linear-gradient(165deg, #861540 0%, #4A0C22 55%, #1C0510 100%);
+  text-align: center;
+  padding: 72px 20px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 25%, rgba(232,64,112,0.18), transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; }
+.hero-icon {
+  width: 108px;
+  height: 108px;
+  border-radius: 26px;
+  object-fit: cover;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 0 0 1.5px rgba(255,255,255,0.12);
+  margin: 0 auto 26px;
+}
+.hero h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(48px, 10vw, 84px);
+  font-weight: 800;
+  letter-spacing: -2.5px;
+  color: #fff;
+  line-height: 1.0;
+  margin-bottom: 20px;
+  text-wrap: balance;
+}
+.hero-intro {
+  font-size: clamp(15px, 2.2vw, 18px);
+  color: rgba(255,255,255,0.70);
+  max-width: 480px;
+  margin: 0 auto 38px;
+  line-height: 1.75;
+}
+.hero-intro strong { color: rgba(255,255,255,0.95); }
+.hero-cta {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.btn-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: #fff;
+  color: #1C0410;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: transform .14s ease, box-shadow .14s ease;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.38);
+}
+.btn-play:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.48); }
+.gplay-icon { width: 20px; height: 22px; flex-shrink: 0; }
+.hero-free { color: rgba(255,255,255,0.42); font-size: 13px; letter-spacing: .3px; }
+/* -- SCREENSHOTS ------------------------------------------- */
+.shots-section { padding: 64px 0 52px; background: var(--bg); }
+.shots-head { text-align: center; padding: 0 20px; margin-bottom: 36px; }
+.shots-head h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: clamp(22px, 3.5vw, 28px);
+  color: var(--text);
+  margin-bottom: 6px;
+  text-wrap: balance;
+}
+.shots-head p { color: var(--muted); font-size: 14.5px; }
+.shots-row {
+  display: flex;
+  gap: 18px;
+  padding: 6px 40px 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.shots-row::-webkit-scrollbar { display: none; }
+.phone {
+  flex-shrink: 0;
+  width: 185px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: #080007;
+  border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 20px 56px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.04);
+  scroll-snap-align: start;
+  transition: transform .2s ease;
+}
+.phone:hover { transform: translateY(-7px); }
+.phone-notch {
+  height: 18px;
+  background: #080007;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.phone-notch span {
+  width: 44px;
+  height: 5px;
+  background: rgba(255,255,255,0.16);
+  border-radius: 3px;
+}
+.phone img { width: 100%; height: auto; }
+.phone-cap {
+  padding: 7px 10px 9px;
+  background: #080007;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.38);
+  text-align: center;
+}
+/* -- FEATURES ---------------------------------------------- */
+.feat-section {
+  padding: 72px 20px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.feat-inner { max-width: 880px; margin: 0 auto; }
+.eyebrow {
+  font-family: 'Poppins', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: clamp(22px, 3.5vw, 30px);
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 8px;
+  text-wrap: balance;
+}
+.section-sub {
+  text-align: center;
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.65;
+  max-width: 460px;
+  margin: 0 auto 44px;
+}
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.feat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 26px 22px;
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+.feat:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,0.09); }
+.feat-em { font-size: 30px; line-height: 1; margin-bottom: 14px; }
+.feat h3 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 15px; color: var(--text); margin-bottom: 7px; }
+.feat p { color: var(--muted); font-size: 13.5px; line-height: 1.65; }
+/* -- QUOTE BAND -------------------------------------------- */
+.band {
+  background: linear-gradient(135deg, #861540 0%, #C84070 55%, #E04878 100%);
+  padding: 64px 24px;
+  text-align: center;
+}
+.band blockquote {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(17px, 2.8vw, 25px);
+  font-weight: 600;
+  color: rgba(255,255,255,0.95);
+  max-width: 640px;
+  margin: 0 auto 28px;
+  line-height: 1.55;
+  text-wrap: balance;
+}
+.band-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.14);
+  border: 1.5px solid rgba(255,255,255,0.28);
+  color: #fff;
+  border-radius: 50px;
+  padding: 13px 28px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14.5px;
+  text-decoration: none;
+  transition: background .14s ease;
+}
+.band-cta:hover { background: rgba(255,255,255,0.24); }
+/* -- FOOTER ------------------------------------------------ */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 32px 20px;
+  text-align: center;
+}
+.footer-links {
+  display: flex;
+  gap: 6px 22px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.footer-links a { color: var(--muted); font-size: 13px; text-decoration: none; transition: color .12s; }
+.footer-links a:hover { color: var(--accent); }
+.footer-copy { color: var(--muted); font-size: 13px; }
+.footer-copy strong { color: var(--accent); font-weight: 600; }
+/* -- Responsive -------------------------------------------- */
+@media (max-width: 440px) {
+  .shots-row { padding: 6px 20px 16px; }
+  .phone { width: 158px; border-radius: 22px; }
+}
 </style>
-</head>
-<body>
 
 <section class="hero">
-  <div class="logo-icon">💖</div>
-  <div class="logo-text">CU-Dater</div>
-  <p class="tagline">Plan your dates, track your vibe</p>
-  <div class="cta-group">
-    <a href="#" class="btn btn-primary">⬇ Download APK</a>
-    <a href="#features" class="btn btn-secondary">Learn More</a>
-  </div>
-</section>
-
-<section class="section" id="features">
-  <div class="section-title">Everything you need for dating life</div>
-  <div class="section-sub">Simple, beautiful, and built for Android</div>
-  <div class="cards">
-    <div class="card">
-      <div class="card-icon">🎂</div>
-      <h3>Age Picker</h3>
-      <p>Set your preferred age range with a smooth numeric picker. Find connections that match your vibe.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">🌍</div>
-      <h3>Origin Selector</h3>
-      <p>Visual tile picker for selecting origin. Browse beautifully at a glance.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">✅</div>
-      <h3>Status Tracking</h3>
-      <p>Three-tab workflow: New, Doing, Done. Always know where each date stands.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">📱</div>
-      <h3>Native Android</h3>
-      <p>Built with Jetpack Compose for a fast, smooth, modern Android experience.</p>
+  <div class="hero-inner">
+    <img src="screenshots/icon.png" alt="CU-Dater icon" class="hero-icon">
+    <h1>CU-Dater</h1>
+    <p class="hero-intro">
+      <strong>Dating new people from Tinder, Bumble, FB or other media or places?</strong><br>
+      It gets messy fast. CU-Dater is the quiet hub that holds it all together &mdash;
+      one list, every spark, zero chaos.
+    </p>
+    <div class="hero-cta">
+      <a href="https://play.google.com/store/apps/details?id=com.cudater.app" class="btn-play" target="_blank" rel="noopener">
+        <svg class="gplay-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M3 2.69a1 1 0 0 1 1.49-.87l15 9.31a1 1 0 0 1 0 1.74l-15 9.31A1 1 0 0 1 3 21.31V2.69Z" fill="#34A853"/>
+          <path d="M3 2.69v9.31L10.5 4.5 3 2.69Z" fill="#4285F4"/>
+          <path d="M3 12v9.31L10.5 19.5 3 12Z" fill="#EA4335"/>
+          <path d="M10.5 4.5 3 12l7.5 7.5L19.5 12 10.5 4.5Z" fill="#FBBC04"/>
+        </svg>
+        Get it on Google Play
+      </a>
+      <span class="hero-free">Free &middot; Android</span>
     </div>
   </div>
 </section>
 
-<div style="background: linear-gradient(135deg,#ffe0ea,#fff0f3); padding: 40px 20px;">
-  <div class="tabs-demo">
-    <h3>Track every date, every step</h3>
-    <div class="tabs">
-      <div class="tab active">New</div>
-      <div class="tab">Doing</div>
-      <div class="tab">Done</div>
-    </div>
-    <div class="item"><div class="item-dot"></div><div><div class="item-text">Coffee with Alex</div><div class="item-sub">Age 28 · Tel Aviv</div></div></div>
-    <div class="item"><div class="item-dot"></div><div><div class="item-text">Dinner with Sam</div><div class="item-sub">Age 31 · Jerusalem</div></div></div>
-    <div class="item"><div class="item-dot"></div><div><div class="item-text">Walk in the park — Maya</div><div class="item-sub">Age 26 · Haifa</div></div></div>
+<section class="shots-section">
+  <div class="shots-head">
+    <h2>See it in action</h2>
+    <p>Scroll to explore every screen</p>
   </div>
-</div>
+  <div class="shots-row">
+    <div class="phone">
+      <div class="phone-notch"><span></span></div>
+      <img src="screenshots/ss1-sparks.jpg" alt="Sparks tab — active connections list" loading="eager">
+      <div class="phone-cap">Sparks</div>
+    </div>
+    <div class="phone">
+      <div class="phone-notch"><span></span></div>
+      <img src="screenshots/ss2-tutorial.jpg" alt="App tutorial overview" loading="lazy">
+      <div class="phone-cap">How it works</div>
+    </div>
+    <div class="phone">
+      <div class="phone-notch"><span></span></div>
+      <img src="screenshots/ss3-social.jpg" alt="Pick the social app where you met" loading="lazy">
+      <div class="phone-cap">Where you met</div>
+    </div>
+    <div class="phone">
+      <div class="phone-notch"><span></span></div>
+      <img src="screenshots/ss4-age.jpg" alt="Solar system age picker" loading="lazy">
+      <div class="phone-cap">Age picker</div>
+    </div>
+    <div class="phone">
+      <div class="phone-notch"><span></span></div>
+      <img src="screenshots/ss5-reallife.jpg" alt="Real life origin picker" loading="lazy">
+      <div class="phone-cap">Real life</div>
+    </div>
+  </div>
+</section>
+
+<section class="feat-section">
+  <div class="feat-inner">
+    <p class="eyebrow">Why CU-Dater</p>
+    <h2 class="section-title">One hub for all your connections</h2>
+    <p class="section-sub">When you&rsquo;re meeting people across multiple apps and places, the mess is real. CU-Dater keeps you clear-headed.</p>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-em">&#10084;&#65039;</div>
+        <h3>Every spark, one list</h3>
+        <p>Tinder, Bumble, Hinge, Instagram, WhatsApp, wherever &mdash; everyone lands in one scrollable view, no app-switching needed.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-em">&#128293;</div>
+        <h3>Hot / Warm / Cool</h3>
+        <p>Three heat levels, one glance. Always know exactly how each connection feels right now &mdash; no second-guessing.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-em">&#128151;</div>
+        <h3>Sparks to Connected</h3>
+        <p>Simple two-state flow. Active sparks on one tab, real connections on the other. The moment you know, you move them.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-em">&#128241;</div>
+        <h3>Native Android</h3>
+        <p>Built with Jetpack Compose. Fast, smooth, and free &mdash; no ads interrupting your flow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <blockquote>
+    &ldquo;CU-Dater is the quiet hub that holds it all together &mdash; one list, every spark, zero chaos.&rdquo; &#128293;
+  </blockquote>
+  <a href="https://play.google.com/store/apps/details?id=com.cudater.app" class="band-cta" target="_blank" rel="noopener">
+    Download free on Google Play
+  </a>
+</section>
 
 <footer>
-  <p>Made with 💖 by <strong>SPCoolApps</strong> &nbsp;·&nbsp; © 2026 CU-Dater</p>
+  <nav class="footer-links">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="child-safety.html">Child Safety</a>
+    <a href="https://play.google.com/store/apps/details?id=com.cudater.app" target="_blank" rel="noopener">Google Play</a>
+  </nav>
+  <p class="footer-copy">Made with &#10084;&#65039; by <strong>SPCoolApps</strong> &nbsp;&middot;&nbsp; &copy; 2026 CU-Dater</p>
 </footer>
-
-</body>
-</html>
