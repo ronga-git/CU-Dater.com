@@ -132,16 +132,21 @@ a { color: inherit; }
   text-wrap: balance;
 }
 .shots-head p { color: var(--muted); font-size: 14.5px; }
+/* Outer handles overflow-scroll; inner row is max-content so margin:auto centers */
+.shots-outer {
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.shots-outer::-webkit-scrollbar { display: none; }
 .shots-row {
   display: flex;
   gap: 18px;
   padding: 6px 40px 16px;
-  overflow-x: auto;
+  width: max-content;
+  margin: 0 auto;
   scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
 }
-.shots-row::-webkit-scrollbar { display: none; }
 .phone {
   flex-shrink: 0;
   width: 185px;
@@ -167,17 +172,63 @@ a { color: inherit; }
   background: rgba(255,255,255,0.16);
   border-radius: 3px;
 }
-.phone img { width: 100%; height: auto; }
+/* Caption sits at the top, just below the notch, above the image */
 .phone-cap {
-  padding: 7px 10px 9px;
+  padding: 5px 10px 7px;
   background: #080007;
   font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: .4px;
+  font-weight: 600;
+  letter-spacing: .5px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.38);
+  color: rgba(255,255,255,0.85);
   text-align: center;
 }
+.phone img {
+  width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+/* -- LIGHTBOX ---------------------------------------------- */
+.lb {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.90);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+  padding: 20px;
+  animation: lb-in .15s ease;
+}
+.lb.open { display: flex; }
+@keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
+.lb img {
+  max-width: min(360px, 88vw);
+  max-height: 88vh;
+  border-radius: 22px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+  object-fit: contain;
+  cursor: default;
+  pointer-events: none;
+}
+.lb-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lb-close:hover { background: rgba(255,255,255,0.25); }
 /* -- FEATURES ---------------------------------------------- */
 .feat-section {
   padding: 72px 20px;
@@ -286,6 +337,12 @@ footer {
 }
 </style>
 
+<!-- Lightbox overlay -->
+<div id="lb" class="lb" role="dialog" aria-modal="true" aria-label="Screenshot enlarged">
+  <button class="lb-close" id="lb-close" aria-label="Close">&#x2715;</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
 <section class="hero">
   <div class="hero-inner">
     <img src="screenshots/icon.png" alt="CU-Dater icon" class="hero-icon">
@@ -313,33 +370,35 @@ footer {
 <section class="shots-section">
   <div class="shots-head">
     <h2>See it in action</h2>
-    <p>Scroll to explore every screen</p>
+    <p>Tap any screen to enlarge</p>
   </div>
-  <div class="shots-row">
-    <div class="phone">
-      <div class="phone-notch"><span></span></div>
-      <img src="screenshots/ss1-sparks.jpg" alt="Sparks tab — active connections list" loading="eager">
-      <div class="phone-cap">Sparks</div>
-    </div>
-    <div class="phone">
-      <div class="phone-notch"><span></span></div>
-      <img src="screenshots/ss2-tutorial.jpg" alt="App tutorial overview" loading="lazy">
-      <div class="phone-cap">How it works</div>
-    </div>
-    <div class="phone">
-      <div class="phone-notch"><span></span></div>
-      <img src="screenshots/ss3-social.jpg" alt="Pick the social app where you met" loading="lazy">
-      <div class="phone-cap">Where you met</div>
-    </div>
-    <div class="phone">
-      <div class="phone-notch"><span></span></div>
-      <img src="screenshots/ss4-age.jpg" alt="Solar system age picker" loading="lazy">
-      <div class="phone-cap">Age picker</div>
-    </div>
-    <div class="phone">
-      <div class="phone-notch"><span></span></div>
-      <img src="screenshots/ss5-reallife.jpg" alt="Real life origin picker" loading="lazy">
-      <div class="phone-cap">Real life</div>
+  <div class="shots-outer">
+    <div class="shots-row">
+      <div class="phone">
+        <div class="phone-notch"><span></span></div>
+        <div class="phone-cap">Sparks</div>
+        <img src="screenshots/ss1-sparks.jpg" alt="Sparks tab — active connections list" loading="eager">
+      </div>
+      <div class="phone">
+        <div class="phone-notch"><span></span></div>
+        <div class="phone-cap">How it works</div>
+        <img src="screenshots/ss2-tutorial.jpg" alt="App tutorial overview" loading="lazy">
+      </div>
+      <div class="phone">
+        <div class="phone-notch"><span></span></div>
+        <div class="phone-cap">Where you met</div>
+        <img src="screenshots/ss3-social.jpg" alt="Pick the social app where you met" loading="lazy">
+      </div>
+      <div class="phone">
+        <div class="phone-notch"><span></span></div>
+        <div class="phone-cap">Age picker</div>
+        <img src="screenshots/ss4-age.jpg" alt="Solar system age picker" loading="lazy">
+      </div>
+      <div class="phone">
+        <div class="phone-notch"><span></span></div>
+        <div class="phone-cap">Real life</div>
+        <img src="screenshots/ss5-reallife.jpg" alt="Real life origin picker" loading="lazy">
+      </div>
     </div>
   </div>
 </section>
@@ -391,3 +450,22 @@ footer {
   </nav>
   <p class="footer-copy">Made with &#10084;&#65039; by <strong>SPCoolApps</strong> &nbsp;&middot;&nbsp; &copy; 2026 CU-Dater</p>
 </footer>
+
+<script>
+const lb = document.getElementById('lb');
+const lbImg = document.getElementById('lb-img');
+const lbClose = document.getElementById('lb-close');
+
+document.querySelectorAll('.phone img').forEach(img => {
+  img.addEventListener('click', () => {
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lb.classList.add('open');
+  });
+});
+
+function closeLb() { lb.classList.remove('open'); }
+lb.addEventListener('click', closeLb);
+lbClose.addEventListener('click', e => { e.stopPropagation(); closeLb(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+</script>
