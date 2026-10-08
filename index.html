@@ -57,7 +57,7 @@ a { color: inherit; }
 .hero {
   background: linear-gradient(165deg, #861540 0%, #4A0C22 55%, #1C0510 100%);
   text-align: center;
-  padding: 72px 20px 80px;
+  padding: 36px 20px 64px;
   position: relative;
   overflow: hidden;
 }
@@ -70,12 +70,12 @@ a { color: inherit; }
 }
 .hero-inner { position: relative; z-index: 1; }
 .hero-icon {
-  width: 108px;
-  height: 108px;
-  border-radius: 26px;
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
   object-fit: cover;
   box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 0 0 1.5px rgba(255,255,255,0.12);
-  margin: 0 auto 26px;
+  margin: 0 auto 16px;
 }
 .hero h1 {
   font-family: 'Poppins', sans-serif;
@@ -84,14 +84,14 @@ a { color: inherit; }
   letter-spacing: -2.5px;
   color: #fff;
   line-height: 1.0;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   text-wrap: balance;
 }
 .hero-intro {
   font-size: clamp(15px, 2.2vw, 18px);
   color: rgba(255,255,255,0.70);
   max-width: 480px;
-  margin: 0 auto 38px;
+  margin: 30px auto 0;
   line-height: 1.75;
 }
 .hero-intro strong { color: rgba(255,255,255,0.95); }
@@ -332,6 +332,34 @@ footer {
 .footer-copy strong { color: var(--accent); font-weight: 600; }
 .visit-count { color: var(--muted); opacity: .35; font-size: 11px; margin-top: 5px; }
 /* -- Responsive -------------------------------------------- */
+.btn-soon { opacity: .6; cursor: default; box-shadow: none; }
+.btn-soon:hover { transform: none; box-shadow: none; }
+.btn-soon .gplay-icon { color: #1C0410; }
+.soon-text { display: flex; flex-direction: column; line-height: 1.15; }
+.soon-text small { font-size: 11px; font-weight: 600; color: #C0306A; letter-spacing: .2px; }
+/* -- BANNER + VIDEOS --------------------------------------- */
+.banner-strip { background: #4A0C22; }
+.banner-strip img { width: 100%; max-width: 1536px; height: auto; margin: 0 auto; aspect-ratio: 1536 / 490; }
+.video-section { padding: 56px 20px 8px; background: var(--bg); }
+.video-row {
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.video-card {
+  width: 240px;
+  aspect-ratio: 9 / 16;
+  border-radius: 26px;
+  overflow: hidden;
+  background: #080007;
+  border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 20px 56px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.04);
+}
+.video-card video { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (max-width: 440px) {
+  .video-card { width: 158px; border-radius: 22px; }
+}
 @media (max-width: 440px) {
   .shots-row { padding: 6px 20px 16px; }
   .phone { width: 158px; border-radius: 22px; }
@@ -348,11 +376,6 @@ footer {
   <div class="hero-inner">
     <img src="screenshots/icon.png" alt="CU-Dater icon" class="hero-icon">
     <h1>CU-Dater</h1>
-    <p class="hero-intro">
-      <strong>Dating new people from Tinder, Bumble, FB or other media or places?</strong><br>
-      It gets messy fast. CU-Dater is the quiet hub that holds it all together &mdash;
-      one list, every spark, zero chaos.
-    </p>
     <div class="hero-cta">
       <a href="https://play.google.com/store/apps/details?id=com.cudater.app" class="btn-play" target="_blank" rel="noopener">
         <svg class="gplay-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -363,7 +386,37 @@ footer {
         </svg>
         Get it on Google Play
       </a>
-      <span class="hero-free">Free &middot; Android</span>
+      <span class="btn-play btn-soon" aria-disabled="true">
+        <svg class="gplay-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/>
+        </svg>
+        <span class="soon-text">Download on the App Store<small>To be active soon</small></span>
+      </span>
+      <span class="hero-free">Free</span>
+    </div>
+    <p class="hero-intro">
+      <strong>Dating new people from Tinder, Bumble, FB or other media or places?</strong><br>
+      It gets messy fast. CU-Dater is the quiet hub that holds it all together &mdash;
+      one list, every spark, zero chaos.
+    </p>
+  </div>
+</section>
+
+<div class="banner-strip">
+  <img src="media/banner.png" alt="CU-Dater: all your connections, one place" width="1536" height="490" loading="eager">
+</div>
+
+<section class="video-section">
+  <div class="shots-head">
+    <h2>Watch it work</h2>
+    <p>Quick clips of CU-Dater in action</p>
+  </div>
+  <div class="video-row">
+    <div class="video-card">
+      <video src="media/demo-1.mp4" autoplay muted loop playsinline preload="metadata" aria-label="CU-Dater demo clip 1"></video>
+    </div>
+    <div class="video-card">
+      <video src="media/demo-2.mp4" autoplay muted loop playsinline preload="metadata" aria-label="CU-Dater demo clip 2"></video>
     </div>
   </div>
 </section>
