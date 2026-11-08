@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Old homepage design drafts - keep out of search results
+Disallow: /v1-pink.html
+Disallow: /v2-purple.html
+Disallow: /v3-dark.html
+Disallow: /v4-teal.html
+
+Sitemap: https://cu-dater.com/sitemap.xml
